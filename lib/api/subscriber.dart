@@ -39,4 +39,12 @@ class SubscriberApi extends BaseApi {
     );
     return SubscriberPreference.fromJson(response);
   }
+
+  /// Get the number of unread in-app notifications for a subscriber
+  ///
+  /// [subscriberId] - The external subscriber identifier
+  Future<int> getInAppNotificationCount(String subscriberId) async {
+    var response = await request<Map<String, dynamic>>(method: ApiMethod.GET, endpoint: 'subscribers/$subscriberId/notifications/unseen');
+    return response['count']?.toInt() ?? 0;
+  }
 }
