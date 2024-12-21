@@ -36,11 +36,11 @@ enum WorkflowStepFilterType {
 }
 
 @JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum WorkflowStepFilterValue { and, or }
+enum FieldLogicalOperator { and, or }
 
 @JsonEnum(fieldRename: FieldRename.screamingSnake)
-enum WorkflowStepFilterChildrenOperator {
-  Larger,
+enum FieldOperator {
+  larger,
   smaller,
   largerEqual,
   smallerEqual,
@@ -54,16 +54,121 @@ enum WorkflowStepFilterChildrenOperator {
   like,
   notLike,
   @JsonValue('IN')
-  iin
+  iin,
 }
 
 enum WorkflowStepFilterChildrenOn { subscriber, payload }
 
 enum WorkflowTriggerType { event }
 
-@JsonEnum(fieldRename: FieldRename.kebab)
+@JsonEnum(fieldRename: FieldRename.snake)
 enum ChannelType {
   inApp, email, sms, chat, push
 }
 
 enum SubscriberPreferenceLevel { global, template }
+
+enum WebSocketEvent {
+  received('notification_received'),
+  unread('unread_count_changed'),
+  unseen('unseen_count_changed');
+
+  final String value;
+
+  const WebSocketEvent(this.value);
+}
+
+
+@JsonEnum(fieldRename: FieldRename.snake)
+enum ActorType {
+  none,
+  user,
+  systemIcon,
+  systemCustom,
+}
+
+enum ChannelCTAType {
+  redirect,
+}
+
+enum MessageActionStatus {
+  pending, done
+}
+
+enum ButtonType {
+  primary, secondary
+}
+
+enum NotificationStatus {
+  sent, error, warning;
+}
+
+enum WorkflowType {
+  REGULAR, ECHO, BRIDGE,
+}
+
+enum TriggerType {
+  event
+}
+
+@JsonEnum(fieldRename: FieldRename.pascal)
+enum TemplateVariableType {
+  string, array, boolean
+}
+
+enum TriggerContextTypeEnum {
+  tenant, actor,
+}
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum StepContentIssueEnum {
+  missingVariableInPayload,
+  illegalVariableInControlValue,
+  missingValue,
+  minValue,
+  invalidUrl,
+  tierLimitExceeded,
+}
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum StepIssueEnum {
+  stepIdExists, missingRequiredValue
+}
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum BuilderFieldType {
+  boolean, text, date, number, statement, list, multiList, group
+}
+
+enum FilterPartTypeEnum {
+  payload,
+  subscriber,
+  webhook,
+  isOnline,
+  isOnlineInLast,
+  previousStep,
+  tenant,
+}
+
+@JsonEnum(fieldRename: FieldRename.screamingSnake)
+enum TimeOperator {
+  days,
+  hours,
+  minutes,
+}
+
+@JsonEnum(fieldRename: FieldRename.snake)
+enum StepType {
+  inApp, email, sms, chat, push, digest, trigger, delay, custom
+}
+
+enum MessageTemplateContentType { editor, customHtml }
+
+enum EmailBlockType {
+  button,
+  text,
+}
+
+enum MarkNotificationAs {
+  read, unread, seen, unseen
+}

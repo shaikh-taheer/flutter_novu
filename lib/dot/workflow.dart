@@ -10,7 +10,7 @@ class WorkflowStepFilterChildren {
 
   late final String value;
 
-  late final WorkflowStepFilterChildrenOperator operator;
+  late final FieldOperator operator;
 
   late final WorkflowStepFilterChildrenOn on;
 
@@ -33,7 +33,7 @@ class WorkflowStepFilter {
 
   final WorkflowStepFilterType? type;
 
-  final WorkflowStepFilterValue? value;
+  final FieldLogicalOperator? value;
 
   WorkflowStepFilter({
     this.isNegated,

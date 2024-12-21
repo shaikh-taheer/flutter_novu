@@ -11,8 +11,7 @@ WorkflowStepFilterChildren _$WorkflowStepFilterChildrenFromJson(
     WorkflowStepFilterChildren(
       field: json['field'] as String,
       value: json['value'] as String,
-      operator: $enumDecode(
-          _$WorkflowStepFilterChildrenOperatorEnumMap, json['operator']),
+      operator: $enumDecode(_$FieldOperatorEnumMap, json['operator']),
       on: $enumDecode(_$WorkflowStepFilterChildrenOnEnumMap, json['on']),
     );
 
@@ -21,26 +20,25 @@ Map<String, dynamic> _$WorkflowStepFilterChildrenToJson(
     <String, dynamic>{
       'field': instance.field,
       'value': instance.value,
-      'operator':
-          _$WorkflowStepFilterChildrenOperatorEnumMap[instance.operator]!,
+      'operator': _$FieldOperatorEnumMap[instance.operator]!,
       'on': _$WorkflowStepFilterChildrenOnEnumMap[instance.on]!,
     };
 
-const _$WorkflowStepFilterChildrenOperatorEnumMap = {
-  WorkflowStepFilterChildrenOperator.Larger: 'LARGER',
-  WorkflowStepFilterChildrenOperator.smaller: 'SMALLER',
-  WorkflowStepFilterChildrenOperator.largerEqual: 'LARGER_EQUAL',
-  WorkflowStepFilterChildrenOperator.smallerEqual: 'SMALLER_EQUAL',
-  WorkflowStepFilterChildrenOperator.equal: 'EQUAL',
-  WorkflowStepFilterChildrenOperator.notEqual: 'NOT_EQUAL',
-  WorkflowStepFilterChildrenOperator.allIn: 'ALL_IN',
-  WorkflowStepFilterChildrenOperator.anyIn: 'ANY_IN',
-  WorkflowStepFilterChildrenOperator.notIn: 'NOT_IN',
-  WorkflowStepFilterChildrenOperator.between: 'BETWEEN',
-  WorkflowStepFilterChildrenOperator.notBetween: 'NOT_BETWEEN',
-  WorkflowStepFilterChildrenOperator.like: 'LIKE',
-  WorkflowStepFilterChildrenOperator.notLike: 'NOT_LIKE',
-  WorkflowStepFilterChildrenOperator.iin: 'IN',
+const _$FieldOperatorEnumMap = {
+  FieldOperator.larger: 'LARGER',
+  FieldOperator.smaller: 'SMALLER',
+  FieldOperator.largerEqual: 'LARGER_EQUAL',
+  FieldOperator.smallerEqual: 'SMALLER_EQUAL',
+  FieldOperator.equal: 'EQUAL',
+  FieldOperator.notEqual: 'NOT_EQUAL',
+  FieldOperator.allIn: 'ALL_IN',
+  FieldOperator.anyIn: 'ANY_IN',
+  FieldOperator.notIn: 'NOT_IN',
+  FieldOperator.between: 'BETWEEN',
+  FieldOperator.notBetween: 'NOT_BETWEEN',
+  FieldOperator.like: 'LIKE',
+  FieldOperator.notLike: 'NOT_LIKE',
+  FieldOperator.iin: 'IN',
 };
 
 const _$WorkflowStepFilterChildrenOnEnumMap = {
@@ -52,15 +50,14 @@ WorkflowStepFilter _$WorkflowStepFilterFromJson(Map<String, dynamic> json) =>
     WorkflowStepFilter(
       isNegated: json['isNegated'] as bool?,
       type: $enumDecodeNullable(_$WorkflowStepFilterTypeEnumMap, json['type']),
-      value:
-          $enumDecodeNullable(_$WorkflowStepFilterValueEnumMap, json['value']),
+      value: $enumDecodeNullable(_$FieldLogicalOperatorEnumMap, json['value']),
     );
 
 Map<String, dynamic> _$WorkflowStepFilterToJson(WorkflowStepFilter instance) =>
     <String, dynamic>{
       'isNegated': instance.isNegated,
       'type': _$WorkflowStepFilterTypeEnumMap[instance.type],
-      'value': _$WorkflowStepFilterValueEnumMap[instance.value],
+      'value': _$FieldLogicalOperatorEnumMap[instance.value],
     };
 
 const _$WorkflowStepFilterTypeEnumMap = {
@@ -74,9 +71,9 @@ const _$WorkflowStepFilterTypeEnumMap = {
   WorkflowStepFilterType.group: 'GROUP',
 };
 
-const _$WorkflowStepFilterValueEnumMap = {
-  WorkflowStepFilterValue.and: 'AND',
-  WorkflowStepFilterValue.or: 'OR',
+const _$FieldLogicalOperatorEnumMap = {
+  FieldLogicalOperator.and: 'AND',
+  FieldLogicalOperator.or: 'OR',
 };
 
 WorkflowStep _$WorkflowStepFromJson(Map<String, dynamic> json) => WorkflowStep(

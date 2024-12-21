@@ -3,16 +3,18 @@ import 'package:flutter_novu/enums.dart';
 
 class BaseApi {
   final String baseUrl;
-  final String apiKey;
+  final String? apiKey;
   late final Dio client;
 
-  BaseApi(this.baseUrl, this.apiKey) {
+  BaseApi(this.baseUrl, [this.apiKey]) {
     client = Dio();
     client.options.baseUrl = '$baseUrl/v1/';
-    client.options.headers['Authorization'] = 'ApiKey $apiKey';
+    if (apiKey != null) {
+      client.options.headers['Authorization'] = 'ApiKey $apiKey';
+    }
   }
 
-  Future<T> request<T>({
+  Future<Map<String, dynamic>> request({
     required ApiMethod method,
     required String endpoint,
     Map<String, dynamic>? query,
@@ -30,6 +32,6 @@ class BaseApi {
         options: Options(headers: headers, method: method.name)
     );
 
-    return response.data?['data'] as T;
+    return response.data!;
   }
 }
