@@ -170,5 +170,19 @@ enum EmailBlockType {
 }
 
 enum MarkNotificationAs {
-  read, unread, seen, unseen
+  read, unread, seen, unseen, archive, unarchive
+}
+
+enum MarkAllNotificationAs {
+  read('read'),
+  archive('archive'),
+  readArchive('read-archive');
+
+  final String value;
+
+  const MarkAllNotificationAs(this.value);
+}
+
+enum PreferenceOverrideSource {
+  subscriber, template, workflowOverride
 }

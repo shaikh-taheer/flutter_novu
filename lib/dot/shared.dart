@@ -73,8 +73,7 @@ class ReplyCallback {
 
 @JsonSerializable()
 class SubscriberFeedResponse {
-  @JsonKey(name: '_id')
-  final String? id;
+  late final String id;
 
   final String? firstName;
 
@@ -85,7 +84,7 @@ class SubscriberFeedResponse {
   late final String? subscriberId;
 
   SubscriberFeedResponse({
-    this.id,
+    required this.id,
     this.firstName,
     this.lastName,
     this.avatar,

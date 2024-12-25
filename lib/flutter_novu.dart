@@ -21,9 +21,10 @@ class Novu {
   final int? retry;
   final int retryDelay;
   final SharedPreferencesAsync prefs = SharedPreferencesAsync();
-  final Function(int changed)? onUnreadChanged;
-  final Function(int changed)? onUnseenChanged;
-  final Function(Dot.Notification notification)? onReceived;
+  final Function(int)? onUnreadChanged;
+  final Function(int)? onUnseenChanged;
+  final Function(Dot.Notification)? onReceived;
+  final Function(String)? onConnected;
 
   IO.Socket? _socket;
 
@@ -38,6 +39,7 @@ class Novu {
     this.onUnreadChanged,
     this.onUnseenChanged,
     this.onReceived,
+    this.onConnected,
   }) {
     var api = BaseApi(backendUrl);
     api.request(method: ApiMethod.POST, endpoint: 'inbox/session', data: {'applicationIdentifier': applicationIdentifier, 'subscriberId': subscriberId}).then((response) {
@@ -46,6 +48,9 @@ class Novu {
       initializeSocket(value['token']);
       if (value.containsKey('totalUnreadCount') && onUnreadChanged != null) {
         onUnreadChanged!(value['totalUnreadCount']);
+      }
+      if (onConnected != null) {
+        onConnected!(value['token']);
       }
     });
     // _socket = WebSocketChannel.connect(Uri.parse(socketUrl));

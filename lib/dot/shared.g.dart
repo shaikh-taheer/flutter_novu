@@ -56,7 +56,7 @@ Map<String, dynamic> _$ReplyCallbackToJson(ReplyCallback instance) =>
 SubscriberFeedResponse _$SubscriberFeedResponseFromJson(
         Map<String, dynamic> json) =>
     SubscriberFeedResponse(
-      id: json['_id'] as String?,
+      id: json['id'] as String,
       firstName: json['firstName'] as String?,
       lastName: json['lastName'] as String?,
       avatar: json['avatar'] as String?,
@@ -66,7 +66,7 @@ SubscriberFeedResponse _$SubscriberFeedResponseFromJson(
 Map<String, dynamic> _$SubscriberFeedResponseToJson(
         SubscriberFeedResponse instance) =>
     <String, dynamic>{
-      '_id': instance.id,
+      'id': instance.id,
       'firstName': instance.firstName,
       'lastName': instance.lastName,
       'avatar': instance.avatar,

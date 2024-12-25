@@ -68,6 +68,7 @@ class Notification {
   late final NotificationStatus status;
   final Map<String, dynamic>? payload;
   final Map<String, dynamic>? overrides;
+  final List<String>? tags;
 
   Notification({
     required this.id,
@@ -100,6 +101,7 @@ class Notification {
     this.payload,
     this.overrides,
     this.archived,
+    this.tags,
   });
 
   factory Notification.fromJson(Map<String, dynamic> json) => _$NotificationFromJson(json);
