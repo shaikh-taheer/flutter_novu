@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_novu/screens/notifications.dart';
+import 'package:flutter_novu/types.dart';
 
 import '../inbox.dart';
 
@@ -9,6 +10,7 @@ class Inbox extends StatefulWidget {
   final String applicationIdentifier;
   final String? subscriberId;
   final Widget? icon;
+  final List<InboxTab> tabs;
 
   const Inbox({super.key,
     required this.backendUrl,
@@ -16,6 +18,7 @@ class Inbox extends StatefulWidget {
     required this.applicationIdentifier,
     this.subscriberId,
     this.icon,
+    this.tabs = const [],
   });
 
   @override
@@ -47,9 +50,10 @@ class _InboxState extends State<Inbox> {
           unseenCount = count;
         });
       },
-      onReceived: (notification) {
-        // Handle received notification
-      },
+      // onReceived: (notification) {
+      //   // Handle received notification
+      // },
+      tabs: widget.tabs,
     );
   }
 

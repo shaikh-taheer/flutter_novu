@@ -2,18 +2,18 @@ import 'dart:ui';
 
 import 'enums.dart';
 
-class ActionOption {
+class NovuActionOption {
   final dynamic icon;
   final Function()? onPress;
   final String? text;
   final Color? color;
   final dynamic result;
   final String? key;
-  final List<ActionOption>? children;
+  final List<NovuActionOption>? children;
   final String? badge;
   final IconPosition iconPosition;
 
-  ActionOption(
+  NovuActionOption(
       {this.icon, this.onPress, this.text, this.color, this.result, this.key, this.children, this.badge, this.iconPosition = IconPosition.left}) {
     assert(icon != null || text != null, 'You must set text or icon or both');
   }
@@ -28,16 +28,13 @@ class NotificationFilter {
 }
 
 /// The Tab type
-class Tab {
+class InboxTab {
   final String label;
 
-  /// @deprecated Use `filter` instead
-  final List<String>? value;
   final NotificationFilterTags? filter;
 
-  Tab({
+  InboxTab({
     required this.label,
-    this.value,
     this.filter,
   });
 }

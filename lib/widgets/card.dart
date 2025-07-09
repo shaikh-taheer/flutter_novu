@@ -13,7 +13,7 @@ class ExtendedCard extends StatelessWidget {
   final TextStyle? subtitleStyle;
   final Color? color;
   final CardActionPosition actionPosition;
-  final List<ActionOption>? actions;
+  final List<NovuActionOption>? actions;
   final double scaler;
   final Widget? status;
   final dynamic icon;
@@ -36,7 +36,7 @@ class ExtendedCard extends StatelessWidget {
     this.icon,
   });
 
-  Widget _buildAction(BuildContext context, ActionOption action) {
+  Widget _buildAction(BuildContext context, NovuActionOption action) {
     if (action.text == null) {
       return IconButton(
         onPressed: () {

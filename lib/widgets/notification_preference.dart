@@ -65,7 +65,7 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
       color: Theme.of(context).colorScheme.surfaceContainerLowest,
       padding: 10,
       actions: [
-        ActionOption(
+        NovuActionOption(
           icon: collapsed ? Icons.expand_more : Icons.expand_less,
           onPress: () {
             setState(() {

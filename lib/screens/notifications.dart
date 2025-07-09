@@ -27,7 +27,7 @@ class NotificationsScreen extends StatefulWidget {
   State<NotificationsScreen> createState() => _NotificationsScreenState();
 }
 
-class _NotificationsScreenState extends State<NotificationsScreen> {
+class _NotificationsScreenState extends State<NotificationsScreen> with TickerProviderStateMixin {
   PageFilter view = PageFilter.all; // 'all', 'archived', 'unread'
   final ScrollController _scrollController = ScrollController();
   List<InboxNotification> _notifications = [];
@@ -35,12 +35,19 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   bool _hasMoreData = true;
   int _currentPage = 0;
   final int _pageSize = 20;
+  late TabController _tabController;
+  int _tab = 0;
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
     _loadNotifications();
+    _tabController = TabController(
+      length: widget.headlessService.tabs.length,
+      vsync: this,
+    );
+    _tabController.addListener(_onTabChanged);
   }
 
   void _onScroll() {
@@ -50,6 +57,14 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         _loadNotifications();
       }
     }
+  }
+
+  void _onTabChanged() {
+    if (_tabController.indexIsChanging) return;
+    setState(() {
+      _tab = _tabController.index;
+    });
+    _refreshNotifications();
   }
 
   Future<void> _loadNotifications({bool refresh = false}) async {
@@ -71,6 +86,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         read: [PageFilter.all, PageFilter.archived].contains(view) ? null : false,
         page: _currentPage,
         limit: _pageSize,
+        tags: widget.headlessService.tabs.isNotEmpty ? widget.headlessService.tabs[_tab].filter?.tags ?? [] : [],
       );
 
       setState(() {
@@ -79,7 +95,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         } else {
           _notifications.addAll(response.data);
         }
-        _hasMoreData = response.data.length == _pageSize;
+        _hasMoreData = response.hasMore;
         _currentPage++;
         _isLoading = false;
       });
@@ -93,6 +109,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
   @override
   void dispose() {
     _scrollController.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -182,51 +199,58 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
       ),
       body: RefreshIndicator(
         onRefresh: _refreshNotifications,
-        child: _notifications.isEmpty ? _buildEmptyState() : ListView.builder(
-          controller: _scrollController,
-          itemCount: _notifications.length + (_hasMoreData ? 1 : 0),
-          itemBuilder: (context, index) {
-            if (index == _notifications.length) {
-              return _isLoading
-                  ? Center(child: CircularProgressIndicator())
-                  : SizedBox.shrink();
-            }
+        child: Column(
+          children: [
+            if (widget.headlessService.tabs.isNotEmpty == true) _buildCustomTabs(),
+            Expanded(
+              child: _notifications.isEmpty ? _buildEmptyState() : ListView.builder(
+                controller: _scrollController,
+                itemCount: _notifications.length + (_hasMoreData ? 1 : 0),
+                itemBuilder: (context, index) {
+                  if (index == _notifications.length) {
+                    return _isLoading
+                        ? Center(child: CircularProgressIndicator())
+                        : SizedBox.shrink();
+                  }
 
-            final notification = _notifications[index];
-            return Column(
-              children: [
-                if (index > 0)
-                  Divider(height: 0.2, indent: 10, endIndent: 10,),
-                NotificationTile(
-                  notification: notification,
-                  onMarkAsArchived: (notificationId) async {
-                    await widget.headlessService.markNotificationAs(
-                        notificationId, MarkNotificationAs.archive);
-                    setState(() {
-                      _notifications = _notifications.where((n) => n.id != notificationId).toList();
-                    });
-                  },
-                  onMarkAsUnArchived: (notificationId) async {
-                    await widget.headlessService.markNotificationAs(
-                        notificationId, MarkNotificationAs.unarchive);
-                    setState(() {
-                      _notifications = _notifications.where((n) => n.id != notificationId).toList();
-                    });
-                  },
-                  onMarkAsRead: (notificationId) async {
-                    await widget.headlessService.markNotificationAs(
-                        notificationId, MarkNotificationAs.read);
-                    _refreshNotifications();
-                  },
-                  onTap: (notification) async {
-                    await widget.headlessService.markNotificationAs(
-                        notification.id, MarkNotificationAs.read);
-                    _refreshNotifications();
-                  },
-                ),
-              ],
-            );
-          },
+                  final notification = _notifications[index];
+                  return Column(
+                    children: [
+                      if (index > 0)
+                        Divider(height: 0.2, indent: 10, endIndent: 10,),
+                      NotificationTile(
+                        notification: notification,
+                        onMarkAsArchived: (notificationId) async {
+                          await widget.headlessService.markNotificationAs(
+                              notificationId, MarkNotificationAs.archive);
+                          setState(() {
+                            _notifications = _notifications.where((n) => n.id != notificationId).toList();
+                          });
+                        },
+                        onMarkAsUnArchived: (notificationId) async {
+                          await widget.headlessService.markNotificationAs(
+                              notificationId, MarkNotificationAs.unarchive);
+                          setState(() {
+                            _notifications = _notifications.where((n) => n.id != notificationId).toList();
+                          });
+                        },
+                        onMarkAsRead: (notificationId) async {
+                          await widget.headlessService.markNotificationAs(
+                              notificationId, MarkNotificationAs.read);
+                          _refreshNotifications();
+                        },
+                        onTap: (notification) async {
+                          await widget.headlessService.markNotificationAs(
+                              notification.id, MarkNotificationAs.read);
+                          _refreshNotifications();
+                        },
+                      ),
+                    ],
+                  );
+                },
+              ),
+            )
+          ],
         ),
       ),
     );
@@ -261,6 +285,35 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
             style: TextStyle(fontSize: 18, color: Colors.grey[600]),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCustomTabs() {
+    return Container(
+      height: 48,
+      child: TabBar(
+        controller: _tabController,
+        isScrollable: true,
+        onTap: (index) {
+          // widget.onTabChanged?.call(widget.tabs![index].id);
+        },
+        tabs: widget.headlessService.tabs.map((tab) => Tab(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // if (tab.icon != null) ...[
+              //   Icon(tab.icon),
+              //   const SizedBox(width: 4),
+              // ],
+              Text(tab.label),
+              // if (tab.showCount) ...[
+              //   const SizedBox(width: 4),
+              //   _buildCountBadge(_getTabCount(tab)),
+              // ],
+            ],
+          ),
+        )).toList(),
       ),
     );
   }

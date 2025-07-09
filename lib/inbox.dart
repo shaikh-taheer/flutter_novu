@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter_novu/api/base.dart';
 import 'package:flutter_novu/enums.dart';
+import 'package:flutter_novu/types.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
@@ -26,6 +27,7 @@ class HeadlessService {
   final Function(int)? onUnreadChanged;
   final Function(int)? onUnseenChanged;
   final Function(Dot.Notification)? onReceived;
+  final List<InboxTab> tabs;
 
   IO.Socket? _socket;
   String? _token;
@@ -42,6 +44,7 @@ class HeadlessService {
     this.onUnreadChanged,
     this.onUnseenChanged,
     this.onReceived,
+    this.tabs = const [],
   }) {
     var api = BaseApi(backendUrl);
     api.request(method: ApiMethod.POST, endpoint: 'inbox/session', data: {'applicationIdentifier': applicationIdentifier, 'subscriberId': subscriberId}).then((response) {
