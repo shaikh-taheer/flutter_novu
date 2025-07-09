@@ -154,12 +154,12 @@ class Inbox {
   }
 
   Future<void> markAllNotificationAs(MarkAllNotificationAs status) async {
-    (await _client.post<Map<String, dynamic>>(
-      'notifications/${status.value}',
+    await _client.post<Map<String, dynamic>>(
+        'notifications/${status.value}',
         data: {
-        if (tags.isNotEmpty == true) 'tags[]': tags,
-      }
-    )).data!;
+          if (tags.isNotEmpty == true) 'tags': tags,
+        }
+    );
 
     if (onUnreadChanged != null) {
       countNotifications(read: false).then((value) => onUnreadChanged!(value));

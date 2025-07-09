@@ -186,3 +186,16 @@ enum MarkAllNotificationAs {
 enum PreferenceOverrideSource {
   subscriber, template, workflowOverride
 }
+
+enum CardActionPosition { bottom, title, menu }
+
+enum IconPosition { left, right, top }
+
+enum ListItemType {
+  choice,
+  color,
+  danger,
+  navigation,
+  text,
+  switching,
+}

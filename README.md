@@ -1,39 +1,96 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+Flutter Client for Novu Notification Platform
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A Flutter package to integrate with the Novu notification platform. Novu provides an open-source notification infrastructure to manage, design, and deliver notifications across multiple channels like email, SMS, in-app, and push notifications.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+Features
+•	Seamless integration with the Novu notification platform.
+•	Support for in-app notifications.
+•	Flexible configurations for custom notification needs.
+•	Easy-to-use APIs for sending, managing, and receiving notifications.
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+Installation
 
-## Features
+Add the package to your pubspec.yaml:
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+dependencies:
+novu_flutter: ^0.1.0
 
-## Getting started
+Then run:
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+flutter pub get
 
-## Usage
+Getting Started
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+1. Import the Package
 
-```dart
-const like = 'sample';
-```
+import 'package:novu_flutter/novu_flutter.dart';
 
-## Additional information
+2. Initialize the Client
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+Before sending or receiving notifications, initialize the Novu client with your API key:
+
+final novuClient = NovuClient(apiKey: 'YOUR_API_KEY');
+
+3. Sending a Notification
+
+await novuClient.sendNotification(
+recipientId: 'user123',
+templateId: 'welcome_email',
+payload: {
+'userName': 'John Doe',
+'welcomeMessage': 'Welcome to our platform!',
+},
+);
+
+4. Receiving In-App Notifications
+
+Listen to real-time in-app notifications:
+
+novuClient.onNotificationReceived((notification) {
+print('New Notification: ${notification.title}');
+});
+
+5. Marking Notifications as Read
+
+await novuClient.markAsRead(notificationId: 'notification123');
+
+Configuration
+
+API Key
+
+Get your API key from your Novu Dashboard under the API settings. Replace 'YOUR_API_KEY' in the example code with your actual key.
+
+Debugging
+
+Enable debugging to see logs for API calls:
+
+final novuClient = NovuClient(
+apiKey: 'YOUR_API_KEY',
+debug: true,
+);
+
+Example Project
+
+Explore the example Flutter app in the example/ directory to see the Novu integration in action.
+
+Contributing
+
+Contributions are welcome! If you’d like to improve the package or add new features:
+1.	Fork the repository.
+2.	Create a new branch.
+3.	Make your changes and test them.
+4.	Submit a pull request.
+
+Resources
+•	Novu Documentation: https://docs.novu.co
+•	Flutter Documentation: https://flutter.dev/docs
+
+License
+
+This project is licensed under the MIT License.
+
+Let’s Connect!
+
+Have questions or need help? Join the Novu Discord Community or open an issue in the GitHub repository.
+
+Happy Coding! 🚀

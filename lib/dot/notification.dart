@@ -63,7 +63,7 @@ class Notification {
   late final bool deleted;
   final List<String>? deviceTokens;
 
-  late final MessageCTA cta;
+  final MessageCTA? cta;
 
   late final NotificationStatus status;
   final Map<String, dynamic>? payload;
@@ -96,7 +96,7 @@ class Notification {
     this.subject,
     required this.deleted,
     this.deviceTokens,
-    required this.cta,
+    this.cta,
     required this.status,
     this.payload,
     this.overrides,
