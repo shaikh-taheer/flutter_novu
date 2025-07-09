@@ -4,23 +4,19 @@ import 'package:flutter_novu/enums.dart';
 import 'package:flutter_novu/inbox.dart';
 import 'package:flutter_novu/types.dart';
 import 'package:flutter_novu/widgets/card.dart';
-import 'package:get_it/get_it.dart';
 
 import '../generated/app_localizations.dart';
 import 'list_item.dart';
 
-GetIt getIt = GetIt.instance;
-
 class NotificationPreference extends StatefulWidget {
   final Dot.PreferencesResponse preference;
-  final String novuId;
+  final HeadlessService headlessService;
   // final dynamic headlessService;
 
   const NotificationPreference({
     super.key,
     required this.preference,
-    required this.novuId,
-    // required this.headlessService,
+    required this.headlessService,
   });
 
   @override
@@ -51,9 +47,9 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
     Dot.PreferencesResponse response;
     var workflow = widget.preference.workflow;
     if (workflow != null) {
-      response = await getIt<Inbox>().updateWorkflowPreferences(workflow.id, {channel: value});
+      response = await widget.headlessService.updateWorkflowPreferences(workflow.id, {channel: value});
     } else {
-      response = await getIt<Inbox>().updateGlobalPreferences({channel: value});
+      response = await widget.headlessService.updateGlobalPreferences({channel: value});
     }
     // context.read<AppConfigsCubit>().updateNotificationsPreference(response);
   }

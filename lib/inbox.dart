@@ -3,19 +3,18 @@ library flutter_novu;
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:flutter_novu/api/base.dart';
 import 'package:flutter_novu/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:dio/dio.dart';
 
 import 'dot.dart' as Dot;
 import 'dot/inbox_notification.dart';
 
 // final StreamController<NotificationEvent> notificationEventsStream = StreamController<NotificationEvent>.broadcast();
 
-class Inbox {
+class HeadlessService {
   final String backendUrl;
   final String socketUrl;
   late final String applicationIdentifier;
@@ -27,13 +26,12 @@ class Inbox {
   final Function(int)? onUnreadChanged;
   final Function(int)? onUnseenChanged;
   final Function(Dot.Notification)? onReceived;
-  final List<String> tags;
 
   IO.Socket? _socket;
   String? _token;
   late final Dio _client;
 
-  Inbox({
+  HeadlessService({
     this.backendUrl = 'https://api.novu.co',
     this.socketUrl = 'https://ws.novu.co',
     required this.applicationIdentifier,
@@ -41,7 +39,6 @@ class Inbox {
     this.subscriberHash,
     this.retry,
     this.retryDelay = 10000,
-    this.tags = const [],
     this.onUnreadChanged,
     this.onUnseenChanged,
     this.onReceived,
@@ -121,6 +118,7 @@ class Inbox {
     bool? read,
     int page = 0,
     int limit = 10,
+    List<String> tags = const [],
   }) async {
     var response = (await _client.get<Map<String, dynamic>>(
         'notifications',
@@ -153,7 +151,7 @@ class Inbox {
     return Dot.InboxNotification.fromJson(response['data']);
   }
 
-  Future<void> markAllNotificationAs(MarkAllNotificationAs status) async {
+  Future<void> markAllNotificationAs(MarkAllNotificationAs status, {List<String> tags = const []}) async {
     await _client.post<Map<String, dynamic>>(
         'notifications/${status.value}',
         data: {
@@ -186,7 +184,7 @@ class Inbox {
     return response['data']['notificationId'];
   }
 
-  Future<int> countNotifications({bool? read, bool? archived }) async {
+  Future<int> countNotifications({bool? read, bool? archived, List<String> tags = const [] }) async {
     var response = (await _client.get<Map<String, dynamic>>(
       'notifications/count',
       queryParameters: {
@@ -201,7 +199,7 @@ class Inbox {
     return response['data'].first['count'];
   }
 
-  Future<List<Dot.PreferencesResponse>> fetchPreferences() async {
+  Future<List<Dot.PreferencesResponse>> fetchPreferences({List<String> tags = const []}) async {
     var response = (await _client.get<Map<String, dynamic>>(
         'preferences',
         queryParameters: {

@@ -4,15 +4,13 @@ import 'package:flutter_novu/generated/app_localizations.dart';
 import 'package:flutter_novu/inbox.dart';
 import 'package:flutter_novu/widgets/bell_icon_painter.dart';
 import 'package:flutter_novu/widgets/notification_preference.dart';
-import 'package:get_it/get_it.dart';
-
-GetIt getIt = GetIt.instance;
 
 class NotificationPreferences extends StatelessWidget {
   final VoidCallback? onRefresh;
   final List<dot.PreferencesResponse> preferences;
+  final HeadlessService headlessService;
 
-  const NotificationPreferences({super.key, this.onRefresh, required this.preferences});
+  const NotificationPreferences({super.key, this.onRefresh, required this.preferences, required this.headlessService});
 
   @override
   Widget build(BuildContext context) {
@@ -101,7 +99,7 @@ class NotificationPreferences extends StatelessWidget {
                   ],
                 ),
               ),
-            NotificationPreference(preference: preferences[index], novuId: getIt<Inbox>().subscriberId!)
+            NotificationPreference(preference: preferences[index], headlessService: headlessService)
           ],
         );
       },

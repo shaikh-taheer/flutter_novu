@@ -18,3 +18,35 @@ class ActionOption {
     assert(icon != null || text != null, 'You must set text or icon or both');
   }
 }
+
+class NotificationFilter {
+  List<String>? tags;
+  bool? read;
+  bool? archived;
+
+  NotificationFilter({this.tags, this.read, this.archived});
+}
+
+/// The Tab type
+class Tab {
+  final String label;
+
+  /// @deprecated Use `filter` instead
+  final List<String>? value;
+  final NotificationFilterTags? filter;
+
+  Tab({
+    required this.label,
+    this.value,
+    this.filter,
+  });
+}
+
+/// Pick<NotificationFilter, 'tags'>
+class NotificationFilterTags {
+  final List<String> tags;
+
+  NotificationFilterTags({
+    required this.tags,
+  });
+}

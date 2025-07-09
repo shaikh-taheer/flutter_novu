@@ -5,10 +5,6 @@ import 'package:flutter_novu/generated/app_localizations.dart';
 import 'package:flutter_novu/inbox.dart';
 import 'package:flutter_novu/screens/preferences.dart';
 import 'package:flutter_novu/widgets/notification_tile.dart';
-import 'package:get_it/get_it.dart';
-import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
-
-GetIt getIt = GetIt.instance;
 
 enum PageFilter {
   all,
@@ -23,7 +19,9 @@ enum PageAction {
 }
 
 class NotificationsScreen extends StatefulWidget {
-  const NotificationsScreen({super.key});
+  final HeadlessService headlessService;
+  
+  const NotificationsScreen({super.key, required this.headlessService});
 
   @override
   State<NotificationsScreen> createState() => _NotificationsScreenState();
@@ -68,7 +66,7 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
         _hasMoreData = true;
       }
 
-      var response = await getIt<Inbox>().getNotifications(
+      var response = await widget.headlessService.getNotifications(
         archived: view == PageFilter.archived,
         read: [PageFilter.all, PageFilter.archived].contains(view) ? null : false,
         page: _currentPage,
@@ -151,14 +149,16 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
           InkWell(
             onTap: () {
               Navigator.push(context, MaterialPageRoute<void>(
-                builder: (context) => NotificationsPreferencesScreen(),
+                builder: (context) => NotificationsPreferencesScreen(
+                  headlessService: widget.headlessService,
+                ),
               ));
             },
             child: Icon(Icons.settings),
           ),
           PopupMenuButton<MarkAllNotificationAs>(
             onSelected: (value) {
-              getIt<Inbox>().markAllNotificationAs(MarkAllNotificationAs.read);
+              widget.headlessService.markAllNotificationAs(MarkAllNotificationAs.read);
               _refreshNotifications();
             },
             icon: Icon(Icons.more_vert),
@@ -200,26 +200,26 @@ class _NotificationsScreenState extends State<NotificationsScreen> {
                 NotificationTile(
                   notification: notification,
                   onMarkAsArchived: (notificationId) async {
-                    await getIt<Inbox>().markNotificationAs(
+                    await widget.headlessService.markNotificationAs(
                         notificationId, MarkNotificationAs.archive);
                     setState(() {
                       _notifications = _notifications.where((n) => n.id != notificationId).toList();
                     });
                   },
                   onMarkAsUnArchived: (notificationId) async {
-                    await getIt<Inbox>().markNotificationAs(
+                    await widget.headlessService.markNotificationAs(
                         notificationId, MarkNotificationAs.unarchive);
                     setState(() {
                       _notifications = _notifications.where((n) => n.id != notificationId).toList();
                     });
                   },
                   onMarkAsRead: (notificationId) async {
-                    await getIt<Inbox>().markNotificationAs(
+                    await widget.headlessService.markNotificationAs(
                         notificationId, MarkNotificationAs.read);
                     _refreshNotifications();
                   },
                   onTap: (notification) async {
-                    await getIt<Inbox>().markNotificationAs(
+                    await widget.headlessService.markNotificationAs(
                         notification.id, MarkNotificationAs.read);
                     _refreshNotifications();
                   },

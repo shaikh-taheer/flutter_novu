@@ -3,12 +3,11 @@ import 'package:flutter_novu/dot/inbox_notification.dart';
 import 'package:flutter_novu/generated/app_localizations.dart';
 import 'package:flutter_novu/inbox.dart';
 import 'package:flutter_novu/widgets/notification_preferences.dart';
-import 'package:get_it/get_it.dart';
-
-final getIt = GetIt.instance;
 
 class NotificationsPreferencesScreen extends StatefulWidget {
-  const NotificationsPreferencesScreen({super.key});
+  final HeadlessService headlessService;
+  
+  const NotificationsPreferencesScreen({super.key, required this.headlessService});
 
   @override
   State<NotificationsPreferencesScreen> createState() =>
@@ -23,7 +22,7 @@ class _NotificationsPreferencesScreenState
   void initState() {
     super.initState();
 
-    getIt<Inbox>().fetchPreferences().then((var preferences) {
+    widget.headlessService.fetchPreferences().then((var preferences) {
       setState(() {
         _preferences = preferences;
       });
@@ -44,8 +43,9 @@ class _NotificationsPreferencesScreenState
       ),
       body: NotificationPreferences(
         preferences: _preferences,
+        headlessService: widget.headlessService,
         onRefresh: () async {
-          // getIt<Inbox>().fetchPreferences().then((var preferences) {
+          // widget.headlessService.fetchPreferences().then((var preferences) {
           //   context.read<AppConfigsCubit>().setNotificationsPreferences(preferences);
           // });
         },
