@@ -44,12 +44,11 @@ class _NotificationPreferenceState extends State<NotificationPreference> {
     setState(() {
       values[channel] = value;
     });
-    Dot.PreferencesResponse response;
     var workflow = widget.preference.workflow;
     if (workflow != null) {
-      response = await widget.headlessService.updateWorkflowPreferences(workflow.id, {channel: value});
+      await widget.headlessService.updateWorkflowPreferences(workflow.id, {channel: value});
     } else {
-      response = await widget.headlessService.updateGlobalPreferences({channel: value});
+      await widget.headlessService.updateGlobalPreferences({channel: value});
     }
     // context.read<AppConfigsCubit>().updateNotificationsPreference(response);
   }

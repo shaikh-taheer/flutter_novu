@@ -1,6 +1,5 @@
 import 'package:flutter_novu/api/base.dart';
 import 'package:flutter_novu/dot/inbox_notification.dart';
-import 'package:flutter_novu/dot/notification.dart';
 import 'package:flutter_novu/dot/shared.dart';
 import 'package:flutter_novu/enums.dart';
 

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_novu/enums.dart';
 import 'package:flutter_novu/generated/app_localizations.dart';
 import 'package:flutter_novu/utils.dart';
 import 'package:flutter_novu/widgets/content.dart';
@@ -166,15 +165,6 @@ class NotificationTile extends StatelessWidget {
 
   Widget _buildContent() {
     return Content(text: notification.body);
-    return Text(
-      notification.body,
-      style: TextStyle(
-        color: Colors.grey[600],
-        fontSize: 14,
-      ),
-      maxLines: 2,
-      overflow: TextOverflow.ellipsis,
-    );
   }
 
   Widget _buildFooter(BuildContext context) {

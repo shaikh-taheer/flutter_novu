@@ -1,11 +1,8 @@
 library flutter_novu;
 
-import 'dart:async';
-
 import 'package:flutter_novu/api/base.dart';
 import 'package:flutter_novu/enums.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 
 import 'dot.dart' as Dot;

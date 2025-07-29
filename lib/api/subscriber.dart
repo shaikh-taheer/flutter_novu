@@ -1,5 +1,4 @@
 import 'package:flutter_novu/api/base.dart';
-import 'package:flutter_novu/dot/message.dart';
 import 'package:flutter_novu/dot/notification.dart';
 import 'package:flutter_novu/dot/shared.dart';
 import 'package:flutter_novu/dot/subscriber.dart';
