@@ -13,10 +13,10 @@ class Inbox extends StatefulWidget {
   final List<InboxTab> tabs;
 
   const Inbox({super.key,
-    required this.backendUrl,
-    required this.socketUrl,
+    this.backendUrl = 'https://eu.api.novu.co',
+    this.socketUrl = 'https://eu.ws.novu.co',
     required this.applicationIdentifier,
-    this.subscriberId,
+    required this.subscriberId,
     this.icon,
     this.tabs = const [],
   });
