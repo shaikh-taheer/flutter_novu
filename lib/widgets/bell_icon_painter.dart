@@ -13,7 +13,7 @@ class BellIconPainter extends CustomPainter {
       ..strokeWidth = 3;
 
     final Paint fillPaint = Paint()
-      ..color = color.withOpacity(0.1)
+      ..color = color.withValues(alpha: 0.1)
       ..style = PaintingStyle.fill;
 
     final double centerX = size.width / 2;
@@ -42,7 +42,7 @@ class BellIconPainter extends CustomPainter {
     for (int i = 1; i <= 3; i++) {
       final double opacity = (1 - (i / 4));
       final Paint wavePaint = Paint()
-        ..color = color.withOpacity(opacity * 0.3)
+        ..color = color.withValues(alpha: opacity * 0.3)
         ..style = PaintingStyle.stroke
         ..strokeWidth = 2;
 

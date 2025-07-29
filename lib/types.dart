@@ -39,7 +39,6 @@ class InboxTab {
   });
 }
 
-/// Pick<NotificationFilter, 'tags'>
 class NotificationFilterTags {
   final List<String> tags;
 

@@ -136,7 +136,7 @@ class NotificationTile extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
-        color: iconColor.withOpacity(0.1),
+        color: iconColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(8),
       ),
       child: Icon(iconData, color: iconColor, size: 20),
@@ -231,9 +231,9 @@ class NotificationTile extends StatelessWidget {
   //   return Container(
   //     padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
   //     decoration: BoxDecoration(
-  //       color: badgeColor.withOpacity(0.1),
+  //       color: badgeColor.withValues(alpha: 0.1),
   //       borderRadius: BorderRadius.circular(4),
-  //       border: Border.all(color: badgeColor.withOpacity(0.3)),
+  //       border: Border.all(color: badgeColor.withValues(alpha: 0.3)),
   //     ),
   //     child: Text(
   //       statusText,

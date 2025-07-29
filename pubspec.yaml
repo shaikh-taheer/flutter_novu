@@ -1,7 +1,7 @@
 name: flutter_novu
 description: "Novu's Flutter SDK for building custom inbox notification experiences."
 version: 1.0.0
-repository: https://github.com/hachther/flutter_novu.git
+repository: https://github.com/hachther/flutter_novu
 
 environment:
   sdk: ^3.5.4
