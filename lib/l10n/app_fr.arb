@@ -1,1 +1,39 @@
-{}
+{
+  "inbox": "Boîte de Réception",
+  "unreadOnly": "Uniquement Non Lu",
+  "archived": "Archivé",
+  "unreadAndRead": "Non Lu & Lu",
+  "markAllAsRead": "Marquer Tout comme Lu",
+  "archiveAll": "Archiver Tout",
+  "archiveRead": "Archiver Lu",
+  "noUnreadNotifications": "Aucune notification non lue",
+  "noArchivedNotifications": "Aucune notification archivée",
+  "noNotifications": "Aucune notification",
+  "markAsRead": "Marquer comme Lu",
+  "justNow": "Juste Maintenant",
+  "unarchive": "Désarchiver",
+  "archive": "Archiver",
+  "dateAgo": "il y a {date}",
+  "@dateAgo": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "noNotificationSettings": "Aucun Paramètre de Notification",
+  "noNotificationSettingsMessage": "Vos préférences de notification apparaîtront ici\nune fois qu'elles seront chargées",
+  "refresh": "Rafraîchir",
+  "notifications": "Notifications",
+  "notificationsMessage": "En configurant vos notifications, vous utiliserez efficacement cette application",
+  "novuChannel": "{value, select, email{Email} sms{SMS} push{Push} in_app{In App} inApp{In App} chat{Chat} other{Autre}}",
+  "@novuChannel": {
+    "placeholders": {
+      "value": {
+        "type": "String"
+      }
+    }
+  },
+  "globalPreferences": "Préférences Globales",
+  "notificationsPreferences": "Préférences de Notifications"
+}
