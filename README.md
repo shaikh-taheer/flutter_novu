@@ -34,15 +34,8 @@ import 'package:flutter_novu/flutter_novu.dart';
 To connect the Inbox component with your Novu environment and real subscribers, set the `applicationIdentifier` and `subscriberId` in the `Inbox` widget.
 
 ```dart
-Inbox(
-  applicationIdentifier: 'APPLICATION_IDENTIFIER',
-  subscriberId: 'SUBSCRIBER_ID',
-)
-```
+import 'package:flutter_novu/flutter_novu.dart';
 
-### Use your own backend and socket URL
-
-```dart
 Inbox(
   applicationIdentifier: 'APPLICATION_IDENTIFIER',
   subscriberId: 'SUBSCRIBER_ID',
@@ -55,6 +48,8 @@ By default, Novu's hosted services for API and socket are used.
 If you want, you can override them and configure your own.
 
 ```dart
+import 'package:flutter_novu/flutter_novu.dart';
+
 Inbox(
   backendUrl: 'YOUR_BACKEND_URL',
   socketUrl: 'YOUR_SOCKET_URL',
@@ -62,10 +57,6 @@ Inbox(
   subscriberId: 'SUBSCRIBER_ID',
 )
 ```
-
-Example Project
-
-Explore the example Flutter app in the example/ directory to see the Novu integration in action.
 
 ## Contributing
 
