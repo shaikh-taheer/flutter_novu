@@ -1,79 +1,73 @@
-Flutter Client for Novu Notification Platform
+# Novu's Flutter SDK for building custom inbox notification experiences
 
-A Flutter package to integrate with the Novu notification platform. Novu provides an open-source notification infrastructure to manage, design, and deliver notifications across multiple channels like email, SMS, in-app, and push notifications.
+flutter_novu a Flutter library that helps to add a fully functioning Inbox to your web application in minutes. 
+Let's do a quick recap on how you can easily use it in your application.
 
-Features
-•	Seamless integration with the Novu notification platform.
-•	Support for in-app notifications.
-•	Flexible configurations for custom notification needs.
-•	Easy-to-use APIs for sending, managing, and receiving notifications.
 
-Installation
+## Features
 
-Add the package to your pubspec.yaml:
+- Seamless integration with the Novu notification platform.
+- Support for in-app notifications.
+- Flexible configurations for custom notification needs.
+- Easy-to-use APIs for sending, managing, and receiving notifications.
 
-dependencies:
-novu_flutter: ^0.1.0
+## Installation
 
-Then run:
+```bash
+flutter pub add flutter_novu
+```
 
-flutter pub get
+## Getting Started
 
-Getting Started
+Before you start using the Novu Flutter SDK, ensure you have a [Novu account](https://dashboard.novu.co/auth/sign-up) and have created a project. 
 
-1. Import the Package
+Follow these steps to integrate the SDK into your Flutter application:
 
-import 'package:novu_flutter/novu_flutter.dart';
+### Import the Package
 
-2. Initialize the Client
+```dart
+import 'package:flutter_novu/flutter_novu.dart';
+```
 
-Before sending or receiving notifications, initialize the Novu client with your API key:
+### Connect to real subscribers
 
-final novuClient = NovuClient(apiKey: 'YOUR_API_KEY');
+To connect the Inbox component with your Novu environment and real subscribers, set the `applicationIdentifier` and `subscriberId` in the `Inbox` widget.
 
-3. Sending a Notification
+```dart
+Inbox(
+  applicationIdentifier: 'APPLICATION_IDENTIFIER',
+  subscriberId: 'SUBSCRIBER_ID',
+)
+```
 
-await novuClient.sendNotification(
-recipientId: 'user123',
-templateId: 'welcome_email',
-payload: {
-'userName': 'John Doe',
-'welcomeMessage': 'Welcome to our platform!',
-},
-);
+### Use your own backend and socket URL
 
-4. Receiving In-App Notifications
+```dart
+Inbox(
+  applicationIdentifier: 'APPLICATION_IDENTIFIER',
+  subscriberId: 'SUBSCRIBER_ID',
+)
+```
 
-Listen to real-time in-app notifications:
+### Use your own backend and socket URL
 
-novuClient.onNotificationReceived((notification) {
-print('New Notification: ${notification.title}');
-});
+By default, Novu's hosted services for API and socket are used. 
+If you want, you can override them and configure your own.
 
-5. Marking Notifications as Read
-
-await novuClient.markAsRead(notificationId: 'notification123');
-
-Configuration
-
-API Key
-
-Get your API key from your Novu Dashboard under the API settings. Replace 'YOUR_API_KEY' in the example code with your actual key.
-
-Debugging
-
-Enable debugging to see logs for API calls:
-
-final novuClient = NovuClient(
-apiKey: 'YOUR_API_KEY',
-debug: true,
-);
+```dart
+Inbox(
+  backendUrl: 'YOUR_BACKEND_URL',
+  socketUrl: 'YOUR_SOCKET_URL',
+  applicationIdentifier: 'APPLICATION_IDENTIFIER',
+  subscriberId: 'SUBSCRIBER_ID',
+)
+```
 
 Example Project
 
 Explore the example Flutter app in the example/ directory to see the Novu integration in action.
 
-Contributing
+## Contributing
 
 Contributions are welcome! If you’d like to improve the package or add new features:
 1.	Fork the repository.
@@ -81,16 +75,13 @@ Contributions are welcome! If you’d like to improve the package or add new fea
 3.	Make your changes and test them.
 4.	Submit a pull request.
 
-Resources
-•	Novu Documentation: https://docs.novu.co
-•	Flutter Documentation: https://flutter.dev/docs
+## Resources
 
-License
+- Novu Documentation: https://docs.novu.co
+- Flutter Documentation: https://flutter.dev/docs
+
+## License
 
 This project is licensed under the MIT License.
 
 Let’s Connect!
-
-Have questions or need help? Join the Novu Discord Community or open an issue in the GitHub repository.
-
-Happy Coding! 🚀

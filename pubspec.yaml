@@ -1,7 +1,7 @@
 name: flutter_novu
-description: "A new Flutter package project."
-version: 0.0.1
-homepage:
+description: "Novu's Flutter SDK for building custom inbox notification experiences."
+version: 1.0.0
+repository: https://github.com/hachther/flutter_novu.git
 
 environment:
   sdk: ^3.5.4
@@ -15,7 +15,7 @@ dependencies:
   flutter_svg: ^2.2.0
   flutter_localizations:
     sdk: flutter
-  intl: any
+  intl: '>=0.19.0 <0.21.0'
   json_annotation: ^4.9.0
   shared_preferences: ^2.3.4
   socket_io_client: ^3.0.2
