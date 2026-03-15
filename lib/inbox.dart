@@ -28,6 +28,7 @@ class HeadlessService {
   final Function(int)? onUnseenChanged;
   final Function(Dot.Notification)? onReceived;
   final List<InboxTab> tabs;
+  final PreferencesFilter? preferencesFilter;
 
   IO.Socket? _socket;
   String? _token;
@@ -45,6 +46,7 @@ class HeadlessService {
     this.onUnseenChanged,
     this.onReceived,
     this.tabs = const [],
+    this.preferencesFilter,
   }) {
     var api = BaseApi(backendUrl);
     api.request(method: ApiMethod.POST, endpoint: 'inbox/session', data: {'applicationIdentifier': applicationIdentifier, 'subscriberId': subscriberId}).then((response) {
@@ -60,7 +62,7 @@ class HeadlessService {
       }
 
       if (onUnreadChanged != null) {
-        countNotifications(read: false).then((value) => onUnreadChanged!(value));
+        countNotifications(read: false, tags: preferencesFilter?.tags ?? []).then((value) => onUnreadChanged!(value));
       }
     });
     // _socket = WebSocketChannel.connect(Uri.parse(socketUrl));
@@ -89,7 +91,7 @@ class HeadlessService {
       if (onUnreadChanged != null) {
         _socket!.on(WebSocketEvent.unread.value, (data) {
           if (onUnreadChanged != null) {
-            countNotifications(read: false).then((value) =>
+            countNotifications(read: false, tags: preferencesFilter?.tags ?? []).then((value) =>
                 onUnreadChanged!(value));
           }
         });
@@ -123,6 +125,7 @@ class HeadlessService {
     int limit = 10,
     List<String> tags = const [],
   }) async {
+    final effectiveTags = tags.isNotEmpty ? tags : (preferencesFilter?.tags ?? []);
     var response = (await _client.get<Map<String, dynamic>>(
         'notifications',
         queryParameters: {
@@ -130,7 +133,7 @@ class HeadlessService {
           'limit': limit,
           'archived': archived,
           if (read != null) 'read': read,
-          if (tags.isNotEmpty == true) 'tags[]': tags,
+          if (effectiveTags.isNotEmpty == true) 'tags[]': effectiveTags,
         }
     )).data!;
     return Dot.PaginatedResponse<Dot.InboxNotification>(
@@ -188,25 +191,27 @@ class HeadlessService {
   }
 
   Future<int> countNotifications({bool? read, bool? archived, List<String> tags = const [] }) async {
+    final effectiveTags = tags.isNotEmpty ? tags : (preferencesFilter?.tags ?? []);
     var response = (await _client.get<Map<String, dynamic>>(
-      'notifications/count',
-      queryParameters: {
-        'filters': jsonEncode([{
-          if (tags.isNotEmpty == true) 'tags': tags,
-          if (read != null) 'read': read,
-          if (archived != null) 'archived': archived
-        }])
-      }
+        'notifications/count',
+        queryParameters: {
+          'filters': jsonEncode([{
+            if (effectiveTags.isNotEmpty == true) 'tags': effectiveTags,
+            if (read != null) 'read': read,
+            if (archived != null) 'archived': archived
+          }])
+        }
     )).data!;
 
     return response['data'].first['count'];
   }
 
   Future<List<Dot.PreferencesResponse>> fetchPreferences({List<String> tags = const []}) async {
+    final effectiveTags = tags.isNotEmpty ? tags : (preferencesFilter?.tags ?? []);
     var response = (await _client.get<Map<String, dynamic>>(
         'preferences',
         queryParameters: {
-          if (tags.isNotEmpty == true) 'tags[]': tags,
+          if (effectiveTags.isNotEmpty == true) 'tags[]': effectiveTags,
         }
     )).data!;
     return response['data'].map<Dot.PreferencesResponse>((var r) => Dot.PreferencesResponse.fromJson(r)).toList();

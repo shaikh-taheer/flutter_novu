@@ -46,3 +46,9 @@ class NotificationFilterTags {
     required this.tags,
   });
 }
+
+class PreferencesFilter {
+  final List<String> tags;
+
+  const PreferencesFilter({required this.tags});
+}

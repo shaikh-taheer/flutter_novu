@@ -11,6 +11,7 @@ class Inbox extends StatefulWidget {
   final String? subscriberId;
   final Widget? icon;
   final List<InboxTab> tabs;
+  final PreferencesFilter? preferencesFilter;
 
   const Inbox({super.key,
     this.backendUrl = 'https://eu.api.novu.co',
@@ -19,6 +20,7 @@ class Inbox extends StatefulWidget {
     required this.subscriberId,
     this.icon,
     this.tabs = const [],
+    this.preferencesFilter,
   });
 
   @override
@@ -54,6 +56,7 @@ class _InboxState extends State<Inbox> {
       //   // Handle received notification
       // },
       tabs: widget.tabs,
+      preferencesFilter: widget.preferencesFilter,
     );
   }
 
